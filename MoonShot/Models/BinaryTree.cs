@@ -1,57 +1,51 @@
-﻿using System;
+﻿using MoonShot.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MoonShot.Models
 {
-    public class BinaryTree
+    public class BinaryTree<T>
     {
-        public BinaryTree(Node root)
+        public BinaryTree(INode<T> root)
         {
             Root = root;
         }
 
-        private Node Root { get; set; }
-        private Func<Node, Node, bool> CanTraverse = (Node n1, Node n2) => true;
+        private INode<T> Root { get; set; }
+        private Func<INode<T>, INode<T>, bool> CanTraverse = (INode<T> n1, INode<T> n2) => true;
+        private Func<List<INode<T>>, List<INode<T>>, bool> IsOptimalPath = (List<INode<T>> l1, List<INode<T>> l2) => false;
+        public List<INode<T>> CurrentOptimalPath = new List<INode<T>>();
 
-        public List<List<Node>> Paths = new List<List<Node>>();
-        public List<Node> CurrentLongestPath = new List<Node>();
-
-        public void Traverse(Func<Node, Node, bool> canTraverse = null)
+        public void Traverse(Func<List<INode<T>>, List<INode<T>>, bool> isOptimalPath = null, 
+            Func<INode<T>, INode<T>, bool> canTraverse = null)
         {
-            if (canTraverse != null)
-            {
-                CanTraverse = canTraverse;
-            }
-
-            Traverse(Root, new List<Node>());
+            CanTraverse = canTraverse ?? CanTraverse;
+            IsOptimalPath = isOptimalPath ?? IsOptimalPath;
+            Traverse(Root, new List<INode<T>>());
         }
 
-        private void Traverse(Node node, List<Node> path)
+        private void Traverse(INode<T> node, List<INode<T>> path)
         {
             path.Add(node);
-            var returnList = new List<List<Node>>();
+            var returnList = new List<List<INode<T>>>();
             if (node.Left != null && CanTraverse(node, node.Left))
             {
-                var leftList = new List<Node>(path);
+                var leftList = new List<INode<T>>(path);
                 returnList.Add(leftList);
                 Traverse(node.Left, leftList);
             }
 
             if (node.Right != null && CanTraverse(node, node.Right))
             {
-                var rightList = new List<Node>(path);
+                var rightList = new List<INode<T>>(path);
                 returnList.Add(rightList);
                 Traverse(node.Right, rightList);
             }
 
-            if (node.Left == null || node.Right == null)
+            if (IsOptimalPath(path, CurrentOptimalPath))
             {
-                Paths.Add(path);
-            }
-            if (path.Sum(s => s.Value) > CurrentLongestPath.Sum(s => s.Value))
-            {
-                CurrentLongestPath = path;
+                CurrentOptimalPath = path;
             }
         }
     }

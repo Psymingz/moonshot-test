@@ -6,11 +6,11 @@ namespace MoonShot.Parser
 {
     public class TreeParser
     {
-        public BinaryTree Parse(string filepath, bool canHaveMultipleParents = false)
+        public BinaryTree<int> Parse(string filepath, bool canHaveMultipleParents = false)
         {
             var text = File.ReadAllLines(filepath).ToList();
             var rowsOfNodes = text.Select(s => s.Split(' ')).ToArray();
-            return new BinaryTree(ParseNode(0, 0, rowsOfNodes, canHaveMultipleParents));
+            return new BinaryTree<int>(ParseNode(0, 0, rowsOfNodes, canHaveMultipleParents));
         }
 
         private Node ParseNode(int i, int j, string[][] rowsOfNodes, bool canHaveMultipleParents)

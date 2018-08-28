@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\BinaryTree.cs" />
+    <Compile Include="Models\Interfaces\INode.cs" />
     <Compile Include="Models\Node.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoonShot.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MoonShot.Models
 {
-    public class Node
+    public class Node : INode<int>
     {
         public int Value { get; set; }
-        public Node Left { get; set; }
-        public Node Right { get; set; }
+        public INode<int> Left { get; set; }
+        public INode<int> Right { get; set; }
 
         public bool IsEven
         {
