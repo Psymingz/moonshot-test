@@ -7,15 +7,16 @@ namespace MoonShot.Models
 {
     public class BinaryTree<T>
     {
+        public List<INode<T>> CurrentOptimalPath = new List<INode<T>>();
+        private Func<INode<T>, INode<T>, bool> CanTraverse = (INode<T> n1, INode<T> n2) => true;
+        private Func<List<INode<T>>, List<INode<T>>, bool> IsOptimalPath = (List<INode<T>> l1, List<INode<T>> l2) => false;
+
         public BinaryTree(INode<T> root)
         {
             Root = root;
         }
 
         private INode<T> Root { get; set; }
-        private Func<INode<T>, INode<T>, bool> CanTraverse = (INode<T> n1, INode<T> n2) => true;
-        private Func<List<INode<T>>, List<INode<T>>, bool> IsOptimalPath = (List<INode<T>> l1, List<INode<T>> l2) => false;
-        public List<INode<T>> CurrentOptimalPath = new List<INode<T>>();
 
         public void Traverse(Func<List<INode<T>>, List<INode<T>>, bool> isOptimalPath = null, 
             Func<INode<T>, INode<T>, bool> canTraverse = null)

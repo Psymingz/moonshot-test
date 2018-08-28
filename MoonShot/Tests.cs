@@ -22,16 +22,17 @@ namespace MoonShot
         [Test]
         public void Tree()
         {
-            var parser = new TreeParser();
+            var parser = new TreeParser<Node, int>();
             var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "input.txt");
             var tree = parser.Parse(path, canHaveMultipleParents: true);
-            Func<List<INode<int>>, List<INode<int>>, bool> isOptimalPath = (List<INode<int>> l1, List<INode<int>> l2) => l1.Sum(w => w.Value) > l2.Sum(w => w.Value);
-            Func<INode<int>, INode<int>, bool> canTraverse = (INode<int> n1, INode<int> n2) =>
+            bool isOptimalPath(List<INode<int>> l1, List<INode<int>> l2) => l1.Sum(w => w.Value) > l2.Sum(w => w.Value);
+            bool canTraverse(INode<int> n1, INode<int> n2)
             {
                 var n1IsEven = n1.Value % 2 == 0;
                 var n2IsEven = n2.Value % 2 == 0;
                 return n1IsEven && !n2IsEven || !n1IsEven && n2IsEven;
-            };
+            }
+
             tree.Traverse(isOptimalPath, canTraverse);
             Console.WriteLine($"(Sum: {tree.CurrentOptimalPath.Sum(s => s.Value)}) { string.Join(" ", tree.CurrentOptimalPath.Select(s => s.Value.ToString()))}");
         }
