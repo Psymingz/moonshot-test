@@ -7,3 +7,5 @@ Hence I have added the "canHaveMultipleParents" bool as a parameter in the Parse
 
 I have strived for making the solution as generically as possible, so other types can be used in the tree. 
 The logic for determing how to traverse the tree and how to decide on the optimal path can also be changed using functions.
+
+Please check the Output of the unit test for the result
